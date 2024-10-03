@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Selamat Datang</title>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Mengambil data profil pengguna
+            fetch('get_user_profile.php')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error) {
+                        console.error(data.error);
+                        // Tampilkan pesan kesalahan jika ada
+                        document.querySelector('.main-content').innerHTML = `<div class="info-box"><h3>Error</h3><p>${data.error}</p></div>`;
+                    } else {
+                        // Tampilkan data profil pengguna
+                        document.querySelector('.main-content h2').textContent = `Selamat Datang, ${data.name}`;
+                        document.querySelector('.info-box').innerHTML = `
+                            <h3>Profil Pengguna</h3>
+                            <p><strong>Nama:</strong> ${data.name}</p>
+                            <p><strong>Email:</strong> ${data.email}</p>
+                            <p><strong>Nomor Telepon:</strong> ${data.phone}</p>
+                            <p><strong>Alamat:</strong> ${data.address}</p>
+                            <p><strong>Biodata:</strong> ${data.bio}</p>
+                        `;
+                    }
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        });
+    </script>
+    
+    <style>
+        /* Style Umum */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column; /* Mengatur arah flex menjadi kolom */
+            min-height: 100vh; /* Mengatur tinggi minimal untuk 100vh */
+            background-color: #f4f4f4;
+        }
+
+        /* Header */
+        .header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 20px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 60px;
+            left: 0;
+            width: 250px;
+            height: calc(100% - 60px); /* Menghitung tinggi sidebar */
+            background-color: #333;
+            padding-top: 20px;
+            z-index: 999;
+        }
+
+        .sidebar a {
+            padding: 15px 25px;
+            text-decoration: none;
+            font-size: 18px;
+            color: white;
+            display: block;
+        }
+
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+
+        /* Konten Utama */
+        .main-content {
+            margin-left: 270px; /* Mengatur margin untuk konten utama */
+            padding: 20px;
+            margin-top: 70px; /* Mengatur margin untuk konten utama */
+            flex: 1; /* Membuat konten utama mengisi ruang yang tersisa */
+        }
+
+        .main-content h2 {
+            font-size: 28px;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .main-content .info-box {
+            background-color: white;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .main-content .info-box h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+            color: #4CAF50;
+        }
+
+        .main-content .info-box p {
+            font-size: 16px;
+            color: #666;
+        }
+
+        /* Flexbox untuk Kolom */
+        .flex-container {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+
+        .flex-container .flex-item {
+            width: 48%; /* Menetapkan lebar setiap item */
+        }
+
+        /* Footer */
+        .footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            width: 100%;
+        }
+
+        .footer p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        /* Responsiveness */
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+            }
+
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .flex-container .flex-item {
+                width: 100%;
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <div class="header">
+        <h1>Dashboard Pengguna</h1>
+    </div>
+
+    <!-- Sidebar Navigasi -->
+    <div class="sidebar">
+        <a href="#">Dashboard</a>
+        <a href="#">Profil</a>
+        <a href="#">Pengaturan</a>
+        <a href="#">Notifikasi</a>
+        <a href="#">Keluar</a>
+    </div>
+
+    <!-- Konten Utama -->
+    <div class="main-content">
+        <h2>Selamat Datang, [Nama Pengguna]</h2>
+        
+        <!-- Informasi Profil Pengguna -->
+        <div class="info-box">
+            <h3>Profil Pengguna</h3>
+            <!-- Data akan diisi oleh JavaScript -->
+            <div id="user-profile"></div>
+        </div>
+        
+        <!-- Flex Container untuk Kolom Info -->
+        <div class="flex-container">
+            <!-- Info Box 1 -->
+            <div class="flex-item">
+                <div class="info-box">
+                    <h3>Statistik Pengguna</h3>
+                    <p>Anda telah login sebanyak <strong>10 kali</strong> dalam bulan ini. Aktivitas Anda meningkat <strong>15%</strong> dibandingkan bulan lalu.</p>
+                </div>
+            </div>
+            
+            <!-- Info Box 2 -->
+            <div class="flex-item">
+                <div class="info-box">
+                    <h3>Pesan Baru</h3>
+                    <p>Anda memiliki <strong>3 pesan baru</strong> dari rekan kerja. Pastikan untuk mengeceknya sebelum tenggat waktu proyek.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Box 3 -->
+        <div class="flex-container">
+            <!-- Info Box 4 -->
+            <div class="flex-item">
+                <div class="info-box">
+                    <h3>Tugas Anda</h3>
+                    <p>Anda memiliki <strong>5 tugas</strong> yang belum selesai. Pastikan untuk menyelesaikannya sebelum akhir minggu.</p>
+                </div>
+            </div>
+
+            <!-- Info Box 5 -->
+            <div class="flex-item">
+                <div class="info-box">
+                    <h3>Pengumuman Terbaru</h3>
+                    <p>Ada pembaruan sistem yang akan dilakukan pada <strong>akhir minggu ini</strong>. Pastikan Anda telah menyimpan pekerjaan Anda sebelum downtime pada hari Minggu pukul 00:00 - 03:00.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Box 6 (Full Width) -->
+
+        <!-- Info Box 7 (Full Width) -->
+        <div class="info-box">
+            <h3>Notifikasi</h3>
+            <p>Anda memiliki <strong>2 notifikasi</strong> yang belum dibaca. Pastikan untuk memeriksa bagian notifikasi.</p>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <p>&copy; 2024 Dashboard Pengguna. Semua Hak Dilindungi.</p>
+    </div>
+
+</body>
+</html>
